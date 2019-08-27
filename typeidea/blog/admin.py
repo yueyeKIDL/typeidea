@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
+from django.contrib.admin.models import LogEntry
 from django.urls import reverse
 from django.utils.html import format_html
 
@@ -17,7 +18,7 @@ class PostInline(admin.TabularInline):  # 不同样式：StackedInline
 
 @admin.register(Category)
 class CategoryAdmin(BaseOwnerAdmin):
-    inlines = (PostInline,)
+    # inlines = (PostInline,)
     # list_display = ('name', 'status', 'is_nav', 'owner', 'created_time')
     list_display = ('name', 'status', 'is_nav', 'created_time', 'post_count',)
     fields = ('name', 'status', 'is_nav',)
@@ -110,3 +111,8 @@ class PostAdmin(BaseOwnerAdmin):
         )
 
     operator.short_description = '操作'
+
+
+@admin.register(LogEntry, site=custom_site)
+class LogEntryAdmin(admin.ModelAdmin):
+    list_display = ('object_repr', 'user', 'object_id', 'action_flag', 'change_message')

@@ -13,13 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
+from django.conf.urls import url
 
-from typeidea.custom_site import custom_site
+from blog import views
 
 urlpatterns = [
-    url(r'^super_admin/', admin.site.urls),
-    url(r'^admin/', custom_site.urls),
-    url(r'', include('blog.urls')),
+    url(r'(?P<post_pk>\d+)$', views.test_get_post_log_entry),
 ]
