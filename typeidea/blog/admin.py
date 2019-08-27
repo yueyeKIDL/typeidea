@@ -5,9 +5,7 @@ from django.utils.html import format_html
 
 from blog.adminforms import PostAdminForm
 from blog.models import Category, Tag, Post
-
-
-# Register your models here.
+from typeidea.base_admin import BaseOwnerAdmin
 from typeidea.custom_site import custom_site
 
 
@@ -18,7 +16,7 @@ class PostInline(admin.TabularInline):  # 不同样式：StackedInline
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(BaseOwnerAdmin):
     inlines = (PostInline,)
     # list_display = ('name', 'status', 'is_nav', 'owner', 'created_time')
     list_display = ('name', 'status', 'is_nav', 'created_time', 'post_count',)
@@ -29,19 +27,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
     post_count.short_description = '文章数量'
 
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        super(CategoryAdmin, self).save_model(request, obj, form, change)
-
 
 @admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
+class TagAdmin(BaseOwnerAdmin):
     list_display = ('name', 'status', 'created_time')
     fields = ('name', 'status')
-
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        super(TagAdmin, self).save_model(request, obj, form, change)
 
 
 class CategoryOwnerFilter(SimpleListFilter):
@@ -61,7 +51,7 @@ class CategoryOwnerFilter(SimpleListFilter):
 
 
 @admin.register(Post, site=custom_site)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(BaseOwnerAdmin):
     form = PostAdminForm
 
     list_display = (
@@ -120,11 +110,3 @@ class PostAdmin(admin.ModelAdmin):
         )
 
     operator.short_description = '操作'
-
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        super(PostAdmin, self).save_model(request, obj, form, change)
-
-    def get_queryset(self, request):
-        qs = super(PostAdmin, self).get_queryset(request)
-        return qs.filter(owner=request.user)
