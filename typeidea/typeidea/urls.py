@@ -16,10 +16,17 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from blog.views import post_list, post_detail
+from config.views import links
 from typeidea.custom_site import custom_site
 
 urlpatterns = [
     url(r'^super_admin/', admin.site.urls),
     url(r'^admin/', custom_site.urls),
-    url(r'', include('blog.urls')),
+    # url(r'', include('blog.urls')),
+    url(r'^$', post_list),
+    url(r'^category/(?P<category_id>\d+)/$', post_list),
+    url(r'^tag/(?P<tag_id>\d+)/$', post_list),
+    url(r'^post/(?P<post_id>\d+).html$', post_detail),
+    url(r'^links/$', links),
 ]
