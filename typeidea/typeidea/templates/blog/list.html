@@ -2,10 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>typeidea博客系统</title>
 </head>
 <body>
 <h1>list</h1>
+{% if category %}
+    分类页：{{ category.name }}
+{% endif %}
+
+{% if tag %}
+    标签页：{{ tag.name }}
+{% endif %}
+
 <ul>
     {% for post in post_list %}
         <li>

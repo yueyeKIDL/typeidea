@@ -76,40 +76,41 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    @staticmethod
+    def get_by_category(category_id):
+        try:
+            category = Category.objects.get(pk=category_id)
+        except Category.DoesNotExist:
+            post_list = []
+            category = None
+        else:
+            post_list = category.post_set.filter(status=Post.STATUS_NORMAL).select_related('owner', 'category')
+        return post_list, category
+
+    @staticmethod
+    def get_by_tag(tag_id):
+        try:
+            tag = Tag.objects.get(pk=tag_id)
+        except Tag.DoesNotExist:
+            post_list = []
+            tag = None
+        else:
+            post_list = tag.post_set.filter(status=Post.STATUS_NORMAL).select_related('owner', 'category')
+        return post_list, tag
+
+    @classmethod
+    def latest_posts(cls):
+        post_list = cls.objects.filter(status=cls.STATUS_NORMAL).select_related('owner', 'category')
+        return post_list
+
     # def save(self, *args, **kwargs):
     #     if self.is_md:
     #         self.content_html = mistune.markdown(self.content)
     #     else:
     #         self.content_html = self.content
     #     super().save(*args, **kwargs)
-    #
-    # @staticmethod
-    # def get_by_tag(tag_id):
-    #     try:
-    #         tag = Tag.objects.get(id=tag_id)
-    #     except Tag.DoesNotExist:
-    #         tag = None
-    #         post_list = []
-    #     else:
-    #         post_list = tag.post_set.filter(status=Post.STATUS_NORMAL) \
-    #             .select_related('owner', 'category')
-    #     return post_list, tag
-    #
-    # @staticmethod
-    # def get_by_category(category_id):
-    #     try:
-    #         category = Category.objects.get(id=category_id)
-    #     except Category.DoesNotExist:
-    #         category = None
-    #         post_list = []
-    #     else:
-    #         post_list = category.post_set.filter(status=Post.STATUS_NORMAL) \
-    #             .select_related('owner', 'category')
-    #     return post_list, category
-    #
-    # @classmethod
-    # def latest_posts(cls):
-    #     return cls.objects.filter(status=cls.STATUS_NORMAL)
+
+
     #
     # @classmethod
     # def hot_posts(cls):
