@@ -14,5 +14,11 @@
     <hr>
     <p>{{ post.content }}</p>
 {% endif %}
+
+
+{% for sidebar in sidebars %}
+    <h4>{{ sidebar.title }}</h4>
+    {{ sidebar.content }}
+{% endfor %}
 </body>
 </html>

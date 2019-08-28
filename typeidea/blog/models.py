@@ -23,6 +23,19 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_navs(cls):
+        categories = cls.objects.filter(status=cls.STATUS_NORMAL)
+        nav_categories = []
+        normal_categories = []
+        for category in categories:
+            if category.is_nav:
+                nav_categories.append(category)
+            else:
+                normal_categories.append(category)
+
+        return dict(navs=nav_categories, categories=normal_categories)
+
 
 class Tag(models.Model):
     STATUS_NORMAL = 1
@@ -66,8 +79,8 @@ class Post(models.Model):
     owner = models.ForeignKey(User, verbose_name="作者", on_delete=models.DO_NOTHING)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
-    # pv = models.PositiveIntegerField(default=1)
-    # uv = models.PositiveIntegerField(default=1)
+    pv = models.PositiveIntegerField(default=1)
+    uv = models.PositiveIntegerField(default=1)
 
     class Meta:
         verbose_name = verbose_name_plural = "文章"
@@ -103,13 +116,16 @@ class Post(models.Model):
         post_list = cls.objects.filter(status=cls.STATUS_NORMAL).select_related('owner', 'category')
         return post_list
 
+    @classmethod
+    def hot_posts(cls):
+        return cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')
+
     # def save(self, *args, **kwargs):
     #     if self.is_md:
     #         self.content_html = mistune.markdown(self.content)
     #     else:
     #         self.content_html = self.content
     #     super().save(*args, **kwargs)
-
 
     #
     # @classmethod

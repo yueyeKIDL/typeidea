@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from blog.models import Post, Category, Tag
+from config.models import SideBar
 
 
 def test_get_post_log_entry(request, post_pk):
@@ -27,7 +28,10 @@ def post_list(request, category_id=None, tag_id=None):
         'category': category,
         'tag': tag,
         'post_list': post_list,
+        'sidebars': SideBar.get_all(),
     }
+
+    context.update(Category.get_navs())
     return render(request, 'blog/list.html', context=context)
 
 
@@ -36,4 +40,11 @@ def post_detail(request, post_id):
         post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         post = None
-    return render(request, 'blog/detail.html', context={'post': post})
+
+    context = {
+        'post': post,
+        'sidebars': SideBar.get_all(),
+    }
+
+    context.update(Category.get_navs())
+    return render(request, 'blog/detail.html', context=context)
