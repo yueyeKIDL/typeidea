@@ -113,11 +113,15 @@ class Post(models.Model):
 
     @classmethod
     def latest_posts(cls):
+        """获取最新的文章（已默认按id降序排列）"""
+
         post_list = cls.objects.filter(status=cls.STATUS_NORMAL).select_related('owner', 'category')
         return post_list
 
     @classmethod
     def hot_posts(cls):
+        """获取最热文章"""
+
         return cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')
 
     # def save(self, *args, **kwargs):
