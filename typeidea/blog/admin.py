@@ -11,9 +11,9 @@ from typeidea.custom_site import custom_site
 
 
 class PostInline(admin.TabularInline):  # 不同样式：StackedInline
-    fields = ("title", "desc",)
-    extra = 1  # 控制额外多几个
     model = Post
+    fields = ("title", "desc",)
+    extra = 1  # 可以添加几篇文章
 
 
 @admin.register(Category)
@@ -53,7 +53,7 @@ class CategoryOwnerFilter(SimpleListFilter):
 
 @admin.register(Post, site=custom_site)
 class PostAdmin(BaseOwnerAdmin):
-    form = PostAdminForm
+    # form = PostAdminForm
 
     list_display = (
         'title', 'category', 'status', 'created_time', 'operator',)

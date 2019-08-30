@@ -26,8 +26,10 @@ class Category(models.Model):
     @classmethod
     def get_navs(cls):
         categories = cls.objects.filter(status=cls.STATUS_NORMAL)
+
         nav_categories = []
         normal_categories = []
+
         for category in categories:
             if category.is_nav:
                 nav_categories.append(category)
