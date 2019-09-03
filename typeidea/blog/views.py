@@ -6,6 +6,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView, ListView
 
 from blog.models import Post, Category, Tag
+from comment.forms import CommentForm
+from comment.models import Comment
 from config.models import SideBar
 
 
@@ -118,6 +120,14 @@ class PostDetailView(CommonViewMixin, DetailView):
     context_object_name = 'post'
     template_name = 'blog/detail.html'
     pk_url_kwarg = 'post_id'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'comment_form': CommentForm,
+            'comment_list': Comment.get_by_target(self.request.path),
+        })
+        return context
 
 
 class SearchView(IndexView):
