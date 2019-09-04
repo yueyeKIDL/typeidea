@@ -1,5 +1,6 @@
-# import mistune
+import random
 
+import mistune
 from django import forms
 
 from .models import Comment
@@ -9,6 +10,7 @@ class CommentForm(forms.ModelForm):
     nickname = forms.CharField(
         label='昵称',
         max_length=50,
+        initial='yueyeKIDL~',
         widget=forms.widgets.Input(
             attrs={'class': 'form-control', 'style': "width: 60%;"}
         )
@@ -16,6 +18,7 @@ class CommentForm(forms.ModelForm):
     email = forms.CharField(
         label='Email',
         max_length=50,
+        initial='163@qq.com',
         widget=forms.widgets.EmailInput(
             attrs={'class': 'form-control', 'style': "width: 60%;"}
         )
@@ -23,6 +26,7 @@ class CommentForm(forms.ModelForm):
     website = forms.CharField(
         label='网站',
         max_length=100,
+        initial='https://www.baidu.com',
         widget=forms.widgets.URLInput(
             attrs={'class': 'form-control', 'style': "width: 60%;"}
         )
@@ -31,6 +35,7 @@ class CommentForm(forms.ModelForm):
     content = forms.CharField(
         label="内容",
         max_length=500,
+        initial='GOGOGO~' * 10,
         widget=forms.widgets.Textarea(
             attrs={'rows': 6, 'cols': 60, 'class': 'form-control'}
         )
@@ -40,7 +45,7 @@ class CommentForm(forms.ModelForm):
         content = self.cleaned_data.get('content')
         if len(content) < 10:
             raise forms.ValidationError('内容长度怎么能这么短呢！！')
-        # content = mistune.markdown(content)
+        content = mistune.markdown(content)
         return content
 
     class Meta:

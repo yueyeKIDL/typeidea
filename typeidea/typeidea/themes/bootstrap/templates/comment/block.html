@@ -7,9 +7,9 @@
 <body>
 <hr>
 <div class="comment">
-    <form id="comment_form" class="form-group" action="/comment/" method="POST">
+    <form id="comment_form" class="form-group" action="{% url 'comment' %}" method="POST">
         {% csrf_token %}
-        <input name="target" type="hidden" value="{{ request.path }}"/>
+        <input name="target" type="hidden" value="{{ target }}"/>
         {{ comment_form }}
         <div id="captcha_section"></div>
         <input id="submit" type="submit" value="写好了!"/>

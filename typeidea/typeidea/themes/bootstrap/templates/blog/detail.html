@@ -3,6 +3,8 @@
 {% block title %} {{ post.title }} {% endblock %}
 
 {% block extra_head %}
+
+    {#    Markdown代码高亮#}
     <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
@@ -19,12 +21,8 @@
         </div>
         <hr/>
         <p>
-            {#        {% autoescape off %}#}
-            {#            {{ post.content_html }}#}
-            {#        {% endautoescape %}#}
-            {#    #}
             {% autoescape off %}
-                {{ post.content }}
+                {{ post.content_html }}
             {% endautoescape %}
         </p>
     {% endif %}
