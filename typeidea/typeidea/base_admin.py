@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 
-class BaseOwnerAdmin(admin.ModelAdmin):
+class BaseOwnerAdmin:
     """
     1.后台表单保存时候，自动补全owner字段
     2.只显示当前用户内容

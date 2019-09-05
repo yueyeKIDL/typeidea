@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import xadmin
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.sitemaps import views as sitemap_views
@@ -25,8 +26,10 @@ from config.views import LinkListView
 from typeidea.custom_site import custom_site
 
 urlpatterns = [
+    url(r'^admin/', xadmin.site.urls, name='xadmin'),
     url(r'^super_admin/', admin.site.urls, name='super-admin'),
-    url(r'^admin/', custom_site.urls, name='admin'),
+
+    # url(r'^admin/', custom_site.urls, name='admin'),
     # url(r'', include('blog.urls')),
     # url(r'^$', post_list, name='index'),
     url(r'^$', IndexView.as_view(), name='index'),
