@@ -131,23 +131,22 @@ class PostDetailView(CommonViewMixin, DetailView):
         return response
 
     def handle_visited(self):
-        increase_pv = False
-        increase_uv = False
         uid = self.request.uid
-        pv_key = 'pv:%s:%s' % (uid, self.request.path)
-        uv_key = 'uv:%s:%s:%s' % (uid, str(date.today()), self.request.path)
+        pv_key = f'pv:{uid}:{self.request.path}'
+        uv_key = f'uv:{uid}:{date.today()}:{self.request.path}'
+        increase_pv = increase_uv = False
         if not cache.get(pv_key):
             increase_pv = True
-            cache.set(pv_key, 1, 1 * 60)  # 1分钟有效
+            cache.set(pv_key, 1, 1 * 60)  # 1min内有效
 
         if not cache.get(uv_key):
             increase_uv = True
-            cache.set(uv_key, 1, 24 * 60 * 60)  # 24小时有效
+            cache.set(uv_key, 1, 24 * 60 * 60)  # 24h内有效
 
         if increase_pv and increase_uv:
             Post.objects.filter(pk=self.object.id).update(pv=F('pv') + 1, uv=F('uv') + 1)
         elif increase_pv:
-            Post.objects.filter(pk=self.object.id).update(pv=F('pv') + 1)
+            Post.objects.filter(pk=self.object.id).update(uv=F('pv') + 1)
         elif increase_uv:
             Post.objects.filter(pk=self.object.id).update(uv=F('uv') + 1)
 
