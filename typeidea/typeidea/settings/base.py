@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'xadmin',
     'crispy_forms',
+    'reversion',
 
     'typeidea',
     'blog',

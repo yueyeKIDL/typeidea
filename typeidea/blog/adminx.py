@@ -145,5 +145,5 @@ class PostAdmin(BaseOwnerAdmin):
 
 
 @xadmin.sites.register(LogEntry)
-class LogEntryAdmin(admin.ModelAdmin):
+class LogEntryAdmin:
     list_display = ('object_repr', 'user', 'object_id', 'action_flag', 'change_message')
