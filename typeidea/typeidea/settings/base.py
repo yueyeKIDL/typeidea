@@ -29,21 +29,27 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'xadmin',
-    'crispy_forms',
-    'reversion',
-
-    'typeidea',
-    'blog',
-    'config',
-    'comment',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # xadmin
+    'xadmin',
+    'crispy_forms',
+    'reversion',
+
+    # django-autocomplete-light
+    'dal',
+    'dal_select2',
+
+    # apps
+    'typeidea',
+    'blog',
+    'config',
+    'comment',
 ]
 
 MIDDLEWARE = [

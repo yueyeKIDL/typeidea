@@ -76,7 +76,7 @@ manager.register(CategoryOwnerFilter, take_priority=True)
 
 @xadmin.sites.register(Post)
 class PostAdmin(BaseOwnerAdmin):
-    # form = PostAdminForm
+    form = PostAdminForm
 
     list_display = (
         'title', 'category', 'status', 'created_time', 'operator',)

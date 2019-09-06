@@ -23,6 +23,7 @@ from blog.sitemap import PostSitemap
 from blog.views import PostDetailView, IndexView, CategoryView, TagView, SearchView, AuthorView
 from comment.views import CommentView
 from config.views import LinkListView
+from typeidea.autocomplete import CategoryAutocomplete, TagAutocomplete
 from typeidea.custom_site import custom_site
 
 urlpatterns = [
@@ -48,4 +49,6 @@ urlpatterns = [
     # url(r'^sitemap\.xml$', cache_page(60 * 20, key_prefix='sitemap_cache_')(sitemap_views.sitemap),
     #     {'sitemaps': {'posts': PostSitemap}}),
     url(r'^sitemap\.xml$', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}}),
+    url(r'^category-autocomplete/$', CategoryAutocomplete.as_view(), name='category-autocomplete'),
+    url(r'^tag-autocomplete/$', TagAutocomplete.as_view(), name='tag-autocomplete'),
 ]
