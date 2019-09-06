@@ -5,7 +5,7 @@ from django.contrib.admin.models import LogEntry
 from django.urls import reverse
 from django.utils.html import format_html
 from xadmin.filters import RelatedFieldListFilter, manager
-from xadmin.layout import Fieldset, Row
+from xadmin.layout import Fieldset, Row, Container
 
 from blog.adminforms import PostAdminForm
 from blog.models import Category, Tag, Post
@@ -13,10 +13,15 @@ from typeidea.base_admin import BaseOwnerAdmin
 from typeidea.custom_site import custom_site
 
 
-class PostInline(admin.TabularInline):  # 不同样式：StackedInline
+# xadmin写法（演示用）
+class PostInline:
     model = Post
-    fields = ("title", "desc",)
     extra = 1  # 可以添加几篇文章
+    form_layut = (
+        Container(
+            Row('title', 'desc'),
+        )
+    )
 
 
 @xadmin.sites.register(Category)
@@ -61,6 +66,7 @@ class CategoryOwnerFilter(RelatedFieldListFilter):
 
     def __init__(self, field, request, params, model, model_admin, field_path):
         super().__init__(field, request, params, model, model_admin, field_path)
+
         # 重新获取lookup_choices，根据owner过滤
         self.lookup_choices = Category.objects.filter(owner=request.user).values_list('id', 'name')
 
@@ -131,7 +137,7 @@ class PostAdmin(BaseOwnerAdmin):
         ),
     )
 
-    filter_horizontal = ('tag',)
+    # filter_horizontal = ('tag',)
 
     # filter_vertical = ('tag',)
 
@@ -143,7 +149,6 @@ class PostAdmin(BaseOwnerAdmin):
 
     operator.short_description = '操作'
 
-
-@xadmin.sites.register(LogEntry)
-class LogEntryAdmin:
-    list_display = ('object_repr', 'user', 'object_id', 'action_flag', 'change_message')
+# @xadmin.sites.register(LogEntry)
+# class LogEntryAdmin:
+#     list_display = ('object_repr', 'user', 'object_id', 'action_flag', 'change_message')

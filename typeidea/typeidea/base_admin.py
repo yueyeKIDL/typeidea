@@ -9,10 +9,21 @@ class BaseOwnerAdmin:
 
     exclude = ('owner',)
 
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        super(BaseOwnerAdmin, self).save_model(request, obj, form, change)
+    # Django admin写法
 
-    def get_queryset(self, request):
-        qs = super(BaseOwnerAdmin, self).get_queryset(request)
-        return qs.filter(owner=request.user)
+    # def save_model(self, request, obj, form, change):
+    #     obj.owner = request.user
+    #     super(BaseOwnerAdmin, self).save_model(request, obj, form, change)
+    #
+    # def get_queryset(self, request):
+    #     qs = super(BaseOwnerAdmin, self).get_queryset(request)
+    #     return qs.filter(owner=request.user)
+
+    # xadmin写法
+    def save_models(self):
+        self.new_obj.owner = self.request.user
+        super().save_models()
+
+    def get_list_queryset(self):
+        qs = super().get_list_queryset()
+        return qs.filter(owner=self.request.user)
