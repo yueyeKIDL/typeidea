@@ -36,7 +36,6 @@ class PostAdminForm(forms.ModelForm):
                 initial['content_md'] = instance.content
             else:
                 initial['content_ck'] = instance.content
-
         super().__init__(instance=instance, initial=initial, **kwargs)
 
     def clean(self):

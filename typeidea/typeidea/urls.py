@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps import views as sitemap_views
 
+from blog.apis import PostList, post_list
 from blog.rss import LatestPostFeed
 from blog.sitemap import PostSitemap
 from blog.views import PostDetailView, IndexView, CategoryView, TagView, SearchView, AuthorView
@@ -53,4 +54,6 @@ urlpatterns = [
     url(r'^category-autocomplete/$', CategoryAutocomplete.as_view(), name='category-autocomplete'),
     url(r'^tag-autocomplete/$', TagAutocomplete.as_view(), name='tag-autocomplete'),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    # url(r'^api/post/', PostList.as_view(),name='post_list'),
+    url(r'^api/post/', post_list,name='post_list'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
