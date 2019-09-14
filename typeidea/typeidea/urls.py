@@ -63,6 +63,6 @@ urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     # url(r'^api/post/', PostList.as_view(),name='post_list'),
     # url(r'^api/post/', post_list, name='post_list'),
-    url(r'^api/', include(router.urls, namespace='api')),
+    url(r'^api/', include(router.urls)),
     url(r'^api/docs/', include_docs_urls(title='typeidea apis')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
