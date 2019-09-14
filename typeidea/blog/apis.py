@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from blog.models import Post, Category
-from blog.serializers import PostSerializer, PostDetailSerializer, CategorySerializer
+from blog.serializers import PostSerializer, PostDetailSerializer, CategorySerializer, CategoryDetailSerializer
 
 
 # @api_view()
@@ -28,7 +28,6 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
 
     def filter_queryset(self, queryset):
         category_id = self.request.query_params.get('category')
-        print(11212, self.request.query_params)
         if category_id:
             queryset = queryset.filter(category_id=category_id)
         return queryset
@@ -37,3 +36,7 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.filter(status=Category.STATUS_NORMAL)
+
+    def retrieve(self, request, *args, **kwargs):
+        self.serializer_class = CategoryDetailSerializer
+        return super().retrieve(request, *args, **kwargs)
