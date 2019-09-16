@@ -28,6 +28,7 @@ class PostDetailSerializer(PostSerializer):
     owner = serializers.SlugRelatedField(
         read_only=True,
         slug_field='username',
+        many=True,
     )
 
     class Meta:
