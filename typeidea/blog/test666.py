@@ -1,3 +1,5 @@
+import pdb
+
 def my_make(temp, counter_list):
     res = ''.join('{}{}'.format(v, k) for k, v in temp.items() if temp)
     counter_list.append(res)
@@ -8,6 +10,7 @@ def string_zip(words):
     temp = {}
     counter_list = []
     count = 0
+    pdb.set_trace()
     for word in words:
         if word not in temp:
             my_make(temp, counter_list)
