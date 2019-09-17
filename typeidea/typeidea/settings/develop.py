@@ -18,5 +18,11 @@ MIDDLEWARE += [
 
 INTERNAL_IPS = ['127.0.0.1', ]
 
-
-DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': '/static/js/jquery-3.3.1.js'}
+DEBUG_TOOLBAR_CONFIG = {
+    'JQUERY_URL': '/static/js/jquery-3.3.1.js',
+    'SHOW_COLLAPSED': True,
+    'SHOW_TOOLBAR_CALLBACK': lambda x: True,
+}
+DEBUG_TOOLBAR_PANELS = {
+   'djdt_flamegraph.FlamegraphPanel'
+}

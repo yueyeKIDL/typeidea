@@ -101,11 +101,13 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
     @classmethod
-    def latest_posts(cls):
+    def latest_posts(cls, with_related=True):
         """获取最新的文章（已默认按id降序排列）"""
 
-        post_list = cls.objects.filter(status=cls.STATUS_NORMAL).select_related('owner', 'category')
-        return post_list
+        queryset = cls.objects.filter(status=cls.STATUS_NORMAL)
+        if with_related:
+            queryset = queryset.select_related('owner', 'category')
+        return queryset
 
     @classmethod
     def hot_posts(cls):
